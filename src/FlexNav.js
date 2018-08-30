@@ -1,72 +1,37 @@
-import React from 'react'
-import {
-  Link
-} from 'react-router-dom'
+import React, { Component } from 'react'
 import logo from "./assets/Logo.png";
+import ProductMenu from './menu/ProductMenu';
 
-const FlexNav = () => {
-  return <div>
+export class FlexNav extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {product: false};
+  }
+
+  productMouseEnter = () => {
+    console.log('productMouseEnter')
+    
+    this.setState({ product: true });
+  }
+
+  productMouseLeave = () => {
+    console.log('productMouseLeave')
+    this.setState({ product: false });
+  }
+
+  render() {
+    return (
+      <div>
       <ul className="flex_navbar">
         {/*Product menu*/}
         <li className="flex_li">
-          <a href="JavaScript:void(0);" className="nav-title">
-            Products
-          </a>
-          <div className="categeory_block">
-            <div className="innerCategory">
-              <ul className="navBlock">
-                <li className="mainCategory">Door Hardware</li>
-                <li className="subCategory">
-                  <Link to={{ pathname: "/product", search: '?prod=Lever',  }}>                    
-                    Levers
-                  </Link>
-                </li>
-                <li className="subCategory">
-                <Link to={{ pathname: "/product", search: '?prod=Knobs',  }}>                    
-                    Knobs
-                  </Link>
-                  </li>
-                <li className="subCategory">Pulls</li>
-                <li className="subCategory">Escutcheons</li>
-                <br />
-                <li className="mainCategory">Sliding door hardware</li>
-                <li style={{ textAlign: "left" }}>Flush Pulls</li>
-                <li style={{ textAlign: "left" }}>Lift &amp; Slide</li>
-                <li style={{ textAlign: "left" }}>Pocket Door Locks</li>
-              </ul>
-              <ul className="navBlock">
-                <li className="mainCategory">Door Accessories</li>
-                <li className="subCategory">Hinges</li>
-                <li className="subCategory">Finials</li>
-                <li className="subCategory">Clavos</li>
-                <li className="subCategory">Hinge Straps</li>
-                <li className="subCategory">Corner Brackets</li>
-                <li className="subCategory">Door bolts</li>
-                <li className="subCategory">Door stops</li>
-                <li className="subCategory">Push Plates</li>
-                <li className="subCategory">Kickplates</li>
-                <li className="subCategory">Door Knockers</li>
-              </ul>
-              <ul className="navBlock">
-                <li className="mainCategory">Cabinet Hardware</li>
-                <li className="subCategory">Knobs</li>
-                <li className="subCategory">Roses</li>
-                <li className="subCategory">Bin Pulls</li>
-                <li className="subCategory">Pulls</li>
-                <br />
-                <li className="mainCategory">Home Accessories</li>
-                <li className="subCategory">Hooks</li>
-                <li className="subCategory">House Numbers</li>
-                <br />
-                <li className="mainCategory">Window Hardware</li>
-              </ul>
-              <ul className="navBlock">
-                <li className="mainCategory">Customization</li>
-                <br />
-                <li className="mainCategory">Locks</li>
-              </ul>
-            </div>
-          </div>
+            <a 
+              // onMouseEnter={() => { this.productMouseEnter()}}
+              onMouseEnter={this.productMouseEnter}
+              onMouseLeave={() => { this.productMouseLeave()}}
+              href="JavaScript:void(0);" className="nav-title">
+              Products
+          </a>          
         </li>
         {/*AboutUs menu*/}
         <li className="flex_li">
@@ -127,7 +92,14 @@ const FlexNav = () => {
           </div>
         </li>
       </ul>
-    </div>;
+    {this.state.product && 
+    <ProductMenu 
+    productMouseEnter={this.productMouseEnter}
+    productMouseLeave={this.productMouseLeave}
+    /> }
+    </div>
+    )
+  }
 }
 
 export default FlexNav

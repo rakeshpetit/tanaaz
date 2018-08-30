@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom'
 import qs from 'query-string'
 import axios from 'axios'
+import loadjs from 'loadjs'
 import logo from "./assets/Logo.png";
 import FlexNav from './FlexNav';
 import ProductList from './product/ProductList';
@@ -13,32 +14,45 @@ axios.defaults.headers.common = {'Authorization': "bearer " +
 
 export class Product extends Component {
   constructor(props) {
-    super(props);
+    super(props);    
     this.state = {listData: null};
+  }
+
+  fetchData(parsed) {
+    let url = 'http://localhost:1337/product?subCategory='+parsed.prod;
+          axios.get(url)
+          .then((response) => {
+              // handle success    
+              // console.log(response);
+              const listData = response.data;  
+              listData && this.setState({listData});                       
+          })
+          .catch((error) => {
+              // handle error
+              console.log(error);
+          }); 
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevParsed = qs.parse(prevProps.location.search);
+    const parsed = qs.parse(this.props.location.search);
+    if (prevParsed.prod !== parsed.prod) {
+      this.fetchData(parsed);
+    }
   }
 
   componentDidMount() {        
           const parsed = qs.parse(this.props.location.search);
           console.log(parsed);
-          let url = 'http://localhost:1337/product?subCategory='+parsed.prod;
-          axios.get(url)
-          .then((response) => {
-              // handle success    
-              console.log(response);
-              const listData = response.data;  
-              listData && this.setState({listData});         
-          })
-          .catch((error) => {
-              // handle error
-              console.log(error);
-          });                    
+          this.fetchData(parsed);  
   }
 
   render() {
-    const items = this.state.listData;    
-    // console.log('state', items);
+    const items = this.state.listData;  
+    const parsed = qs.parse(this.props.location.search);  
+    console.log('parsed', parsed);
     if(!items) 
-      return null;
+      return null;    
     return (
       <div className="App">
       <div>
