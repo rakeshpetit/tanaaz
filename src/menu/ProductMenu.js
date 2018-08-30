@@ -6,8 +6,8 @@ import {
 const ProductMenu = (props) => {
   return (
     <div 
-    onMouseEnter={props.productMouseEnter} 
-    onMouseLeave={props.productMouseLeave} 
+    onMouseEnter={props.menuMouseEnter} 
+    onMouseLeave={props.menuMouseLeave} 
     style={{backgroundColor: 'white', position: 'absolute'}}>
             <div className="innerCategory">
               <ul className="navBlock">
